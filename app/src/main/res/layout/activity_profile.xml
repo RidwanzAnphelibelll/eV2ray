@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/bg_toolbar">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="eV2ray" android:textSize="18sp" android:textStyle="bold"
+            android:textColor="@color/white" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Protocol" android:textSize="12sp" android:textColor="@color/text_secondary" />
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerProtocol"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_spinner"
+                android:paddingStart="8dp"
+                android:paddingEnd="32dp" />
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Name (optional)" android:textSize="12sp" android:textColor="@color/text_secondary" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etName" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Profile name" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Server Address" android:textSize="12sp" android:textColor="@color/text_secondary" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddress" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="IP or domain"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Port" android:textSize="12sp" android:textColor="@color/text_secondary" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPort" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="443"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout android:id="@+id/layoutUuid" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="UUID" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUuid" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="User UUID"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutPassword" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical"
+                android:visibility="gone">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Password" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="Password"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutSsMethod" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical"
+                android:visibility="gone">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Encryption Method" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSsMethod" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="aes-128-gcm"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutSsPassword" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical"
+                android:visibility="gone">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="SS Password" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSsPassword" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="Password"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutAlterId" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Alter ID" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAlterId" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="0"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutSecurity" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Security" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSecurity" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="auto"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutFlow" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical"
+                android:visibility="gone">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Flow" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFlow" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="xtls-rprx-vision"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutMux" android:layout_width="match_parent"
+                android:layout_height="48dp" android:orientation="horizontal"
+                android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Mux"
+                    android:textSize="14sp" android:textColor="@color/text_primary" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchMux" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="@color/border" android:layout_marginBottom="12dp" />
+
+            <LinearLayout android:id="@+id/layoutNetwork" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Network" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinnerNetwork"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/bg_spinner"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="32dp" />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutTls" android:layout_width="match_parent"
+                android:layout_height="48dp" android:orientation="horizontal"
+                android:gravity="center_vertical" android:layout_marginBottom="4dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="TLS" android:textSize="14sp" android:textColor="@color/text_primary"
+                    android:layout_marginEnd="8dp" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchTls" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="16dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Insecure" android:textSize="14sp" android:textColor="@color/text_primary"
+                    android:layout_marginEnd="8dp" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchInsecure" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutHost" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Host" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etHost" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="Host header"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutPath" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Path" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPath" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="/"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutGrpcService" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical"
+                android:visibility="gone">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="gRPC Service Name" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etGrpcService" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="GrpcServiceName"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layoutSni" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="SNI" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSni" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="Server name"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="Simpan"
+        android:textSize="15sp"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:layout_margin="16dp" />
+
+</LinearLayout>
