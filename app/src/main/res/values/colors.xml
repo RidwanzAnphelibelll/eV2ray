@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#7dc037</color>
+    <color name="primary_dark">#5a9028</color>
+    <color name="bg_dark">#1a1a2e</color>
+    <color name="bg_toolbar">#2d2d2d</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#888888</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#F44336</color>
+    <color name="blue">#2196F3</color>
+    <color name="border">#e0e0e0</color>
+    <color name="status_on">#7dc037</color>
+    <color name="status_off">#888888</color>
+</resources>
