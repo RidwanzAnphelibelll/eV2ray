@@ -1,0 +1,11 @@
+-keepattributes *Annotation*
+-keepattributes Signature
+-keep class com.rscoders.v2ray.** { *; }
+-keep class com.google.gson.** { *; }
+-dontwarn com.google.gson.**
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+-keep class libv2ray.** { *; }
+-dontwarn libv2ray.**
+-keep class go.** { *; }
+-dontwarn go.**
