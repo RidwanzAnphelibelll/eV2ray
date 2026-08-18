@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             if ("DISCONNECTED".equals(state)) {
                 isConnected = false;
                 runOnUiThread(() -> {
-                    b.tvStatus.setText("Off");
+                    b.tvStatus.setText("Disconnected");
                     b.tvStatus.setTextColor(getResources().getColor(R.color.status_off));
                     b.tvDownSpeed.setText("↓ 0 B/s");
                     b.tvUpSpeed.setText("↑ 0 B/s");
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupTabs();
         setupHome();
+        setCopyrightYear();
         showPage(0);
 
         IntentFilter filter = new IntentFilter(com.rscoders.v2ray.VpnService.BROADCAST_STATS);
@@ -100,6 +102,14 @@ public class MainActivity extends AppCompatActivity {
             registerReceiver(statsReceiver, filter, RECEIVER_EXPORTED);
         } else {
             registerReceiver(statsReceiver, filter);
+        }
+    }
+
+    private void setCopyrightYear() {
+        TextView tvCopyright = findViewById(R.id.tvCopyright);
+        if (tvCopyright != null) {
+            int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+            tvCopyright.setText(year + " © RSCoders");
         }
     }
 
@@ -167,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void doConnect() {
         isConnected = true;
-        b.tvStatus.setText("On");
+        b.tvStatus.setText("Connected");
         b.tvStatus.setTextColor(getResources().getColor(R.color.status_on));
         ProxyProfile active = ConfigManager.getActiveProfile(this);
         String remark = active != null ? active.getDisplayName() : "eV2ray";
@@ -240,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
     private void showProfileMenu(ProxyProfile p) {
         new AlertDialog.Builder(this)
             .setTitle(p.getDisplayName())
-            .setItems(new String[]{"Edit", "Salin Link", "Hapus"}, (d, i) -> {
+            .setItems(new String[]{"Edit", "Export to Clipboard", "Hapus"}, (d, i) -> {
                 if (i == 0) {
                     Intent intent = new Intent(this, ProfileActivity.class);
                     intent.putExtra("profile_id", p.id);
@@ -269,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void disconnect() {
         isConnected = false;
-        b.tvStatus.setText("Off");
+        b.tvStatus.setText("Disconnected");
         b.tvStatus.setTextColor(getResources().getColor(R.color.status_off));
         b.tvPing.setText("- ms");
         com.rscoders.v2ray.VpnService.stop(this);
@@ -290,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 1, 0, "Tempel Link");
+        menu.add(0, 1, 0, "Import from Clipboard");
         menu.add(0, 2, 0, "Exit");
         return true;
     }
