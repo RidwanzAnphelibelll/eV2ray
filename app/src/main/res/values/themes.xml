@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.V2ray" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.V2ray" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/bg_dark</item>
         <item name="android:statusBarColor">@color/bg_toolbar</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">@color/bg_toolbar</item>
-        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="materialButtonStyle">@style/Widget.V2ray.Button</item>
+        <item name="textInputStyle">@style/Widget.V2ray.TextInput</item>
+        <item name="switchStyle">@style/Widget.V2ray.Switch</item>
     </style>
 
     <style name="Theme.V2ray.Splash" parent="Theme.V2ray">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/bg_dark</item>
+    </style>
+
+    <style name="Widget.V2ray.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/bg_dark</item>
+        <item name="backgroundTint">@color/primary</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.V2ray.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/border</item>
+        <item name="boxBackgroundColor">@color/bg_card</item>
+        <item name="hintTextColor">@color/text_secondary</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+    </style>
+
+    <style name="Widget.V2ray.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="thumbTint">@color/primary</item>
+        <item name="trackTint">@color/border</item>
     </style>
 </resources>
