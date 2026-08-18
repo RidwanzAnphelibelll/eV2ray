@@ -51,7 +51,7 @@ public class EditorActivity extends AppCompatActivity {
                 try {
                     JsonParser.parseString(json);
                     ConfigManager.saveJson(this, json);
-                    Toast.makeText(this, "Tersimpan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Tersimpan!", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Toast.makeText(this, "JSON tidak valid: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
