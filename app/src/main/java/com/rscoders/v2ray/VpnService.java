@@ -9,8 +9,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -51,6 +55,9 @@ public class VpnService extends android.net.VpnService {
     private V2RayPoint v2RayPoint;
     private boolean isRunning = false;
     private String currentRemark = "eV2ray";
+
+    private ConnectivityManager connectivity;
+    private ConnectivityManager.NetworkCallback networkCallback;
 
     private int seconds, minutes, hours;
     private long totalUp, totalDown, upSpeed, downSpeed;
@@ -155,8 +162,8 @@ public class VpnService extends android.net.VpnService {
             tunInterface = builder.establish();
             if (tunInterface == null) { stopVpn(); stopSelf(); return; }
 
+            setupNetworkCallback();
             startTun2Socks();
-            sendFileDescriptor();
 
             isRunning = true;
             seconds = 0; minutes = 0; hours = 0;
@@ -180,9 +187,45 @@ public class VpnService extends android.net.VpnService {
         }
     }
 
+    private void setupNetworkCallback() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return;
+        connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkRequest request = new NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
+            .build();
+        networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                setUnderlyingNetworks(new Network[]{network});
+            }
+            @Override
+            public void onCapabilitiesChanged(Network network, NetworkCapabilities nc) {
+                setUnderlyingNetworks(new Network[]{network});
+            }
+            @Override
+            public void onLost(Network network) {
+                setUnderlyingNetworks(null);
+            }
+        };
+        try {
+            connectivity.requestNetwork(request, networkCallback);
+        } catch (Exception ignored) {}
+    }
+
+    private void unregisterNetworkCallback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && networkCallback != null) {
+            try {
+                connectivity.unregisterNetworkCallback(networkCallback);
+            } catch (Exception ignored) {}
+            networkCallback = null;
+        }
+    }
+
     private void startTun2Socks() {
         try {
             if (tun2SocksProcess != null) { tun2SocksProcess.destroy(); tun2SocksProcess = null; }
+
             ArrayList<String> cmds = new ArrayList<>(Arrays.asList(
                 new File(getApplicationInfo().nativeLibraryDir, "libtun2socks.so").getAbsolutePath(),
                 "--netif-ipaddr", "26.26.26.2",
@@ -191,13 +234,33 @@ public class VpnService extends android.net.VpnService {
                 "--tunmtu", "1500",
                 "--sock-path", "sock_path",
                 "--enable-udprelay",
-                "--loglevel", "error"
+                "--loglevel", "notice"
             ));
-            tun2SocksProcess = new ProcessBuilder(cmds).directory(getFilesDir()).start();
+
+            ProcessBuilder pb = new ProcessBuilder(cmds);
+            pb.redirectErrorStream(true);
+            tun2SocksProcess = pb.directory(getFilesDir()).start();
+
             new Thread(() -> {
-                Scanner sc = new Scanner(tun2SocksProcess.getErrorStream());
-                while (sc.hasNextLine()) Log.d("tun2socks", sc.nextLine());
-            }, "t2s_err").start();
+                try {
+                    Scanner sc = new Scanner(tun2SocksProcess.getInputStream());
+                    while (sc.hasNextLine()) Log.d("tun2socks", sc.nextLine());
+                } catch (Exception ignored) {}
+            }, "t2s_log").start();
+
+            new Thread(() -> {
+                try {
+                    tun2SocksProcess.waitFor();
+                    Log.d("tun2socks", "exited");
+                    if (isRunning && tunInterface != null) {
+                        Log.d("tun2socks", "restart");
+                        startTun2Socks();
+                    }
+                } catch (Exception ignored) {}
+            }, "t2s_watch").start();
+
+            sendFileDescriptor();
+
         } catch (Exception e) {
             Log.e("VpnService", "startTun2Socks", e);
         }
@@ -227,6 +290,7 @@ public class VpnService extends android.net.VpnService {
     private void stopVpn() {
         isRunning = false;
         statsHandler.removeCallbacks(statsRunnable);
+        unregisterNetworkCallback();
         if (v2RayPoint != null) {
             try { if (v2RayPoint.getIsRunning()) v2RayPoint.stopLoop(); } catch (Exception ignored) {}
             v2RayPoint = null;
