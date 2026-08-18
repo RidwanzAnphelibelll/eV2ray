@@ -3,8 +3,10 @@ package com.rscoders.v2ray;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -25,15 +27,19 @@ public class SpeedGraphView extends View {
     public SpeedGraphView(Context ctx, AttributeSet a) { super(ctx, a); init(); }
 
     private void init() {
-        rxPaint.setColor(Color.parseColor("#2196F3"));
+        rxPaint.setColor(Color.parseColor("#448AFF"));
         rxPaint.setStyle(Paint.Style.STROKE);
-        rxPaint.setStrokeWidth(3f);
-        txPaint.setColor(Color.parseColor("#F44336"));
+        rxPaint.setStrokeWidth(2.5f);
+        rxPaint.setStrokeCap(Paint.Cap.ROUND);
+        rxPaint.setStrokeJoin(Paint.Join.ROUND);
+
+        txPaint.setColor(Color.parseColor("#FF5252"));
         txPaint.setStyle(Paint.Style.STROKE);
-        txPaint.setStrokeWidth(3f);
-        rxFill.setColor(Color.parseColor("#332196F3"));
+        txPaint.setStrokeWidth(2.5f);
+        txPaint.setStrokeCap(Paint.Cap.ROUND);
+        txPaint.setStrokeJoin(Paint.Join.ROUND);
+
         rxFill.setStyle(Paint.Style.FILL);
-        txFill.setColor(Color.parseColor("#33F44336"));
         txFill.setStyle(Paint.Style.FILL);
     }
 
@@ -54,35 +60,57 @@ public class SpeedGraphView extends View {
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        if (h > 0) {
+            rxFill.setShader(new LinearGradient(0, 0, 0, h,
+                Color.parseColor("#55448AFF"), Color.TRANSPARENT, Shader.TileMode.CLAMP));
+            txFill.setShader(new LinearGradient(0, 0, 0, h,
+                Color.parseColor("#55FF5252"), Color.TRANSPARENT, Shader.TileMode.CLAMP));
+        }
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         int w = getWidth(), h = getHeight();
         if (w == 0 || h == 0 || rxHist.isEmpty()) return;
-        long maxVal = 1;
+
+        long maxVal = 1024;
         for (long v : rxHist) if (v > maxVal) maxVal = v;
         for (long v : txHist) if (v > maxVal) maxVal = v;
+        maxVal = (long) (maxVal * 1.2);
+
         long[] rx = rxHist.stream().mapToLong(Long::longValue).toArray();
         long[] tx = txHist.stream().mapToLong(Long::longValue).toArray();
-        drawLine(canvas, rx, maxVal, w, h, rxPaint, rxFill);
-        drawLine(canvas, tx, maxVal, w, h, txPaint, txFill);
+        drawCurve(canvas, tx, maxVal, w, h, txPaint, txFill);
+        drawCurve(canvas, rx, maxVal, w, h, rxPaint, rxFill);
     }
 
-    private void drawLine(Canvas canvas, long[] data, long maxVal, int w, int h, Paint line, Paint fill) {
-        if (data.length == 0) return;
+    private void drawCurve(Canvas canvas, long[] data, long maxVal, int w, int h, Paint line, Paint fill) {
+        if (data.length < 2) return;
         float slot = (float) w / (MAX - 1);
         float startX = (MAX - data.length) * slot;
+
         Path path = new Path();
         Path fillPath = new Path();
-        float y0 = h - (float) data[0] / maxVal * (h - 4);
-        path.moveTo(startX, y0);
-        fillPath.moveTo(startX, h);
-        fillPath.lineTo(startX, y0);
+
+        float x0 = startX;
+        float y0 = h - (float) data[0] / maxVal * (h - 6);
+        path.moveTo(x0, y0);
+        fillPath.moveTo(x0, h);
+        fillPath.lineTo(x0, y0);
+
         for (int i = 1; i < data.length; i++) {
-            float x = startX + i * slot;
-            float y = h - (float) data[i] / maxVal * (h - 4);
-            path.lineTo(x, y);
-            fillPath.lineTo(x, y);
+            float x1 = startX + i * slot;
+            float y1 = h - (float) data[i] / maxVal * (h - 6);
+            float cx = (x0 + x1) / 2;
+            path.cubicTo(cx, y0, cx, y1, x1, y1);
+            fillPath.cubicTo(cx, y0, cx, y1, x1, y1);
+            x0 = x1;
+            y0 = y1;
         }
+
         fillPath.lineTo(startX + (data.length - 1) * slot, h);
         fillPath.close();
         canvas.drawPath(fillPath, fill);
