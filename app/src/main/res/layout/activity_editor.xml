@@ -3,18 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/bg_toolbar">
+        android:background="@color/bg_toolbar"
+        android:elevation="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="eV2ray"
+            android:text="Config Editor"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white" />
@@ -31,12 +33,13 @@
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
             android:textSize="11sp"
-            android:textColor="#212121"
-            android:background="@android:color/white"
-            android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:background="@color/bg_dark"
+            android:padding="16dp"
             android:gravity="top|start"
             android:inputType="textMultiLine"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:textCursorDrawable="@null" />
 
     </ScrollView>
 
