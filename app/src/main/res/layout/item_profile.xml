@@ -4,28 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?attr/selectableItemBackground">
+    android:layout_marginBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:background="@drawable/ripple_card"
+        android:padding="14dp">
 
         <TextView
             android:id="@+id/tvProtocolIcon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:gravity="center"
-            android:textSize="10sp"
+            android:textSize="11sp"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:background="@drawable/bg_protocol_icon"
-            android:layout_marginEnd="12dp" />
+            android:layout_marginEnd="14dp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -48,8 +46,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
+                android:fontFamily="monospace"
                 android:textColor="@color/text_secondary"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:maxLines="1"
                 android:ellipsize="end" />
 
@@ -59,22 +58,18 @@
             android:id="@+id/tvActiveBadge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AKTIF"
+            android:text="ACTIVE"
             android:textSize="9sp"
-            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:textColor="@color/primary"
             android:background="@drawable/bg_badge_active"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:visibility="gone" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="64dp"
-        android:background="@color/border" />
 
 </LinearLayout>
