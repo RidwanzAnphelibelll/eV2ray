@@ -23,7 +23,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.VH> {
 
     private List<ProxyProfile> items;
     private String activeId;
-    private Listener listener;
+    private final Listener listener;
 
     public ProfileAdapter(List<ProxyProfile> items, String activeId, Listener l) {
         this.items = items;
@@ -53,30 +53,39 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.VH> {
 
         String proto = p.protocol != null ? p.protocol.toLowerCase() : "vmess";
         String label;
-        int color;
+        int bgColor;
+        int textColor;
+
         switch (proto) {
             case "vless":
                 label = "VL";
-                color = Color.parseColor("#1976D2");
+                bgColor = Color.parseColor("#1A448AFF");
+                textColor = Color.parseColor("#448AFF");
                 break;
             case "trojan":
                 label = "TJ";
-                color = Color.parseColor("#E53935");
+                bgColor = Color.parseColor("#1AFF5252");
+                textColor = Color.parseColor("#FF5252");
                 break;
             case "shadowsocks":
             case "ss":
                 label = "SS";
-                color = Color.parseColor("#6A1B9A");
+                bgColor = Color.parseColor("#1AE040FB");
+                textColor = Color.parseColor("#E040FB");
                 break;
             default:
                 label = "VM";
-                color = Color.parseColor("#7dc037");
+                bgColor = Color.parseColor("#1A00E676");
+                textColor = Color.parseColor("#00E676");
                 break;
         }
+
         h.tvIcon.setText(label);
+        h.tvIcon.setTextColor(textColor);
         GradientDrawable bg = new GradientDrawable();
-        bg.setShape(GradientDrawable.OVAL);
-        bg.setColor(color);
+        bg.setShape(GradientDrawable.RECTANGLE);
+        bg.setCornerRadius(10f * h.itemView.getContext().getResources().getDisplayMetrics().density);
+        bg.setColor(bgColor);
         h.tvIcon.setBackground(bg);
 
         boolean active = p.id.equals(activeId);
